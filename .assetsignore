@@ -1,0 +1,14 @@
+# Keep source and secrets out of public static assets
+worker.js
+wrangler.jsonc
+wrangler.toml
+functions/**
+.git/**
+.github/**
+.gitignore
+.assetsignore
+README.md
+.env*
+.dev.vars*
+node_modules/**
+package*.json
