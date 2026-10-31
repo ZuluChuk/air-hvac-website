@@ -15,7 +15,7 @@
   const groups = projects.map(project => ({
     title: project.title,
     source: project.slug,
-    all: [...new Set((project.gallery || []).filter(path => /^images\\/portfolio\\/[a-z0-9-]+\\.webp$/.test(path)))],
+    all: [...new Set((project.gallery || []).filter(path => /^images\/portfolio\/[a-z0-9-]+\.webp$/.test(path)))],
     remaining: []
   })).filter(group => group.all.length);
   if (!groups.length) return;

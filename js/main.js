@@ -15,9 +15,16 @@ document.querySelector('#year').textContent = new Date().getFullYear();
 (async () => {
   try {
     const response = await fetch('/api/instagram', { signal: AbortSignal.timeout(4500) });
-    if (!response.ok) return;
-    const { posts } = await response.json();
-    if (!Array.isArray(posts) || !posts.length) return;
+    const payload = await response.json();
+    if (!response.ok || payload.configured === false || payload.unavailable) {
+      console.warn('Instagram feed unavailable:', payload.reason || 'request_failed');
+      return;
+    }
+    const { posts } = payload;
+    if (!Array.isArray(posts) || !posts.length) {
+      console.info('Instagram feed: no posts returned');
+      return;
+    }
     const gallery = document.querySelector('#instagram-gallery');
     const validPosts = posts.filter(post => /^https:\/\//.test(post.imageUrl || '') && /^https:\/\/(www\.)?instagram\.com\//.test(post.permalink || ''));
     if (!validPosts.length) return;

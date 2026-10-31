@@ -6,7 +6,7 @@ export default {
     if (url.pathname === "/api/instagram") {
       if (request.method !== "GET") return new Response("Method not allowed", {status:405});
       if (!env.INSTAGRAM_ACCESS_TOKEN || !env.INSTAGRAM_USER_ID) {
-        return Response.json({posts:[],configured:false}, {headers:{"cache-control":"no-store"}});
+        return Response.json({posts:[],configured:false,reason:"missing_instagram_configuration"}, {headers:{"cache-control":"no-store"}});
       }
       try {
         const endpoint = new URL("https://graph.instagram.com/" + API_VERSION + "/" + encodeURIComponent(env.INSTAGRAM_USER_ID) + "/media");
@@ -24,7 +24,7 @@ export default {
         return Response.json({posts}, {headers:{"cache-control":"public, max-age=900"}});
       } catch (error) {
         console.error("Instagram feed error", error.message);
-        return Response.json({posts:[],unavailable:true}, {status:503,headers:{"cache-control":"no-store"}});
+        return Response.json({posts:[],unavailable:true,reason:"instagram_api_error"}, {status:503,headers:{"cache-control":"no-store"}});
       }
     }
     return env.ASSETS.fetch(request);
