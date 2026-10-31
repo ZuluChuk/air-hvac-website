@@ -51,3 +51,31 @@ document.querySelector('#year').textContent = new Date().getFullYear();
   map.fitBounds(L.featureGroup([surrey, london]).getBounds(), { padding: [18, 18] });
   map.whenReady(() => setTimeout(() => map.invalidateSize(), 0));
 })();
+
+(() => {
+  const tabs = Array.from(document.querySelectorAll('.explorer-tab'));
+  if (!tabs.length) return;
+  const select = (target, focus = false) => {
+    tabs.forEach(tab => {
+      const active = tab === target;
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+      const panel = document.getElementById(tab.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !active;
+    });
+    if (focus) target.focus();
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', event => {
+      let next;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % tabs.length;
+      else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index - 1 + tabs.length) % tabs.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      select(tabs[next], true);
+    });
+  });
+})();
