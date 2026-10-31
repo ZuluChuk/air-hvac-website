@@ -3,6 +3,9 @@
   "main": "./worker.js",
   "compatibility_date": "2026-10-24",
   "previews": {},
+  "vars": {
+    "INSTAGRAM_USER_ID": "17841467051565794"
+  },
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
