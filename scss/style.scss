@@ -35,6 +35,11 @@
 /* Keep the portfolio hero stable as photographs rotate. */
 #hero-project-image{width:100%;aspect-ratio:6/5;object-fit:cover;object-position:center;display:block;background:#112b3c}
 
+/* Contact actions must remain visible without hover on the white panel. */
+.email-panel > a.btn.secondary{background:#17394b;color:#fff;border-color:#17394b;min-height:52px;gap:8px;margin:4px 0}
+.email-panel > a.btn.secondary:hover,.email-panel > a.btn.secondary:focus-visible{background:#245c74;border-color:#245c74;color:#fff}
+.email-panel > a.btn.primary{color:#041925;min-height:52px}
+.email-panel > a.btn:focus-visible{outline:3px solid #b91e8d;outline-offset:3px}
 /* Hero photo crossfade and compact homepage project gallery. */
 .hero-visual{position:relative;overflow:hidden}
 .hero-visual .hero-crossfade-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 850ms ease;pointer-events:none;z-index:1}
