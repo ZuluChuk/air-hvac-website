@@ -1,0 +1,14 @@
+{
+  "name": "air-hvac-website",
+  "private": true,
+  "scripts": {
+    "build:css": "sass --no-source-map scss/style.scss css/style.css",
+    "watch:css": "sass --watch --no-source-map scss/style.scss css/style.css",
+    "build": "npm run build:css",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "devDependencies": {
+    "sass": "^1.93.0",
+    "wrangler": "^4.0.0"
+  }
+}
