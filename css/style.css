@@ -16,3 +16,6 @@
 
 /* Organisations worked with: text-only, no unlicensed logos or implied endorsements */
 .clients-section{background:#f7f5fa}.clients-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.client-name{background:#fff;border:1px solid #e5dce9;border-top:3px solid #b91e8d;padding:32px 16px;min-height:130px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;text-align:center;color:#090022;font-size:clamp(20px,2.2vw,31px);font-weight:900;letter-spacing:-.035em}.client-name small{font-size:12px;font-weight:600;letter-spacing:0;color:#66717e}.clients-disclaimer{font-size:12px;line-height:1.6;color:#62616c;margin-top:20px}@media(max-width:850px){.clients-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.client-name{padding:22px 10px;min-height:112px;font-size:21px}}
+
+/* Logos in organisations section; text labels remain visible for accessibility and as fallbacks. */
+.client-logo{display:block;width:auto;max-width:150px;height:54px;object-fit:contain;margin-bottom:2px}.client-label{font:inherit}.client-name:has(.client-logo) {gap:7px}
