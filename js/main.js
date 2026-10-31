@@ -34,3 +34,20 @@ document.querySelector('#year').textContent = new Date().getFullYear();
     });
   } catch { /* Preserve the curated fallback gallery */ }
 })();
+
+// Indicative map only: broad illustrative zones, not precise postcode coverage.
+(() => {
+  const element = document.getElementById('service-area-map');
+  if (!element || typeof L === 'undefined') return;
+  element.replaceChildren();
+  const map = L.map(element, { scrollWheelZoom: false, attributionControl: true }).setView([51.36, -0.29], 9);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
+    maxZoom: 18
+  }).addTo(map);
+  const style = { color: '#b91e8d', weight: 2, opacity: 0.85, fillColor: '#b91e8d', fillOpacity: 0.13, interactive: false };
+  const surrey = L.circle([51.245, -0.48], { ...style, radius: 31500 }).addTo(map);
+  const london = L.circle([51.505, -0.13], { ...style, radius: 25500 }).addTo(map);
+  map.fitBounds(L.featureGroup([surrey, london]).getBounds(), { padding: [18, 18] });
+  map.whenReady(() => setTimeout(() => map.invalidateSize(), 0));
+})();
