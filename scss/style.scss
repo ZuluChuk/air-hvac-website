@@ -50,3 +50,7 @@
 .home-project-photo:focus-visible{outline:3px solid #b91e8d;outline-offset:3px}
 @media(max-width:680px){.home-project-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
 @media(prefers-reduced-motion:reduce){.hero-visual .hero-crossfade-layer,.home-project-photo img{transition:none}}
+/* Tighten transition from Instagram projects to Areas Covered. */
+.work-section.section{padding-bottom:48px}
+.areas-section.section{padding-top:48px}
+@media(max-width:680px){.work-section.section{padding-bottom:32px}.areas-section.section{padding-top:32px}}
