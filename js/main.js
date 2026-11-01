@@ -42,21 +42,36 @@ document.querySelector('#year').textContent = new Date().getFullYear();
   } catch { /* Preserve the curated fallback gallery */ }
 })();
 
-// Indicative map only: broad illustrative zones, not precise postcode coverage.
-(() => {
+// Road-network isochrone: 60-minute drive from the business origin postcode.
+(async () => {
   const element = document.getElementById('service-area-map');
   if (!element || typeof L === 'undefined') return;
   element.replaceChildren();
-  const map = L.map(element, { scrollWheelZoom: false, attributionControl: true }).setView([51.36, -0.29], 9);
+  const map = L.map(element, {scrollWheelZoom:false,attributionControl:true}).setView([51.40,-0.42],9);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
-    maxZoom: 18
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
+    maxZoom:18
   }).addTo(map);
-  const style = { color: '#b91e8d', weight: 2, opacity: 0.85, fillColor: '#b91e8d', fillOpacity: 0.13, interactive: false };
-  const surrey = L.circle([51.245, -0.48], { ...style, radius: 31500 }).addTo(map);
-  const london = L.circle([51.505, -0.13], { ...style, radius: 25500 }).addTo(map);
-  map.fitBounds(L.featureGroup([surrey, london]).getBounds(), { padding: [18, 18] });
-  map.whenReady(() => setTimeout(() => map.invalidateSize(), 0));
+  try {
+    const response = await fetch('/api/service-isochrone', {signal:AbortSignal.timeout(15000)});
+    if (!response.ok) throw new Error('Isochrone service unavailable');
+    const {geojson,origin} = await response.json();
+    const region = L.geoJSON(geojson, {
+      style:{color:'#b91e8d',weight:3,opacity:.9,fillColor:'#b91e8d',fillOpacity:.18},
+      interactive:false
+    }).addTo(map);
+    L.circleMarker([origin.latitude,origin.longitude], {
+      radius:6,color:'#090022',weight:2,fillColor:'#29bde9',fillOpacity:1
+    }).bindPopup('Starting postcode: TW16 6PQ').addTo(map);
+    map.fitBounds(region.getBounds(),{padding:[20,20]});
+  } catch(error) {
+    console.warn('Driving isochrone unavailable:',error.message);
+    const message = document.createElement('p');
+    message.className = 'isochrone-error';
+    message.textContent = 'The 60-minute driving boundary is temporarily unavailable. Please contact us with your postcode to check coverage.';
+    element.insertAdjacentElement('afterend',message);
+  }
+  map.whenReady(() => setTimeout(() => map.invalidateSize(),0));
 })();
 
 (() => {

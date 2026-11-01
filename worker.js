@@ -27,6 +27,32 @@ export default {
         return Response.json({posts:[],unavailable:true,reason:"instagram_api_error"}, {status:503,headers:{"cache-control":"no-store"}});
       }
     }
+    if (url.pathname === "/api/service-isochrone") {
+      if (request.method !== "GET") return new Response("Method not allowed", {status:405});
+      if (!env.OPENROUTESERVICE_API_KEY) {
+        return Response.json({error:"routing_not_configured"}, {status:503,headers:{"cache-control":"no-store"}});
+      }
+      try {
+        // Resolve only the business origin postcode; never geolocate site visitors.
+        const postcodeResponse = await fetch("https://api.postcodes.io/postcodes/TW166PQ");
+        if (!postcodeResponse.ok) throw new Error("Postcode lookup failed");
+        const postcode = await postcodeResponse.json();
+        const {latitude, longitude} = postcode.result || {};
+        if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) throw new Error("Invalid postcode coordinates");
+        const response = await fetch("https://api.heigit.org/openrouteservice/v2/isochrones/driving-car", {
+          method:"POST",
+          headers:{"Authorization":env.OPENROUTESERVICE_API_KEY,"Content-Type":"application/json","Accept":"application/geo+json"},
+          body:JSON.stringify({locations:[[longitude,latitude]],range:[3600],range_type:"time"})
+        });
+        if (!response.ok) throw new Error("Routing service returned " + response.status);
+        const geojson = await response.json();
+        if (geojson.type !== "FeatureCollection" || !Array.isArray(geojson.features) || !geojson.features.length) throw new Error("No isochrone geometry");
+        return Response.json({origin:{latitude,longitude,postcode:"TW16 6PQ"},geojson}, {headers:{"cache-control":"public, max-age=86400"}});
+      } catch(error) {
+        console.error("Service isochrone error",error.message);
+        return Response.json({error:"routing_unavailable"}, {status:503,headers:{"cache-control":"no-store"}});
+      }
+    }
     return env.ASSETS.fetch(request);
   }
 };
