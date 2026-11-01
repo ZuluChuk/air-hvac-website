@@ -30,7 +30,7 @@ export default {
     if (url.pathname === "/api/service-isochrone") {
       if (request.method !== "GET") return new Response("Method not allowed", {status:405});
       if (!env.OPENROUTESERVICE_API_KEY) {
-        return Response.json({error:"routing_not_configured"}, {status:503,headers:{"cache-control":"no-store"}});
+        return Response.json({error:"routing_not_configured",message:"Cloudflare secret OPENROUTESERVICE_API_KEY is missing from this deployment."}, {status:503,headers:{"cache-control":"no-store"}});
       }
       try {
         // Resolve only the business origin postcode; never geolocate site visitors.
@@ -44,13 +44,18 @@ export default {
           headers:{"Authorization":env.OPENROUTESERVICE_API_KEY,"Content-Type":"application/json","Accept":"application/geo+json"},
           body:JSON.stringify({locations:[[longitude,latitude]],range:[3600],range_type:"time"})
         });
-        if (!response.ok) throw new Error("Routing service returned " + response.status);
+        if (!response.ok) {
+          const status = response.status;
+          const detail = status === 401 || status === 403 ? "API key rejected or isochrones permission/quota unavailable" : status === 429 ? "Routing API rate limit reached" : status === 400 ? "Routing API rejected the isochrone request" : "Routing provider returned HTTP " + status;
+          console.error("HeiGIT isochrone response", status, (await response.text()).slice(0,500));
+          return Response.json({error:"routing_provider_error",provider_status:status,message:detail},{status:502,headers:{"cache-control":"no-store"}});
+        }
         const geojson = await response.json();
         if (geojson.type !== "FeatureCollection" || !Array.isArray(geojson.features) || !geojson.features.length) throw new Error("No isochrone geometry");
         return Response.json({origin:{latitude,longitude,postcode:"TW16 6PQ"},geojson}, {headers:{"cache-control":"public, max-age=86400"}});
       } catch(error) {
         console.error("Service isochrone error",error.message);
-        return Response.json({error:"routing_unavailable"}, {status:503,headers:{"cache-control":"no-store"}});
+        return Response.json({error:"routing_unavailable",message:"Postcode lookup, routing request, or response processing failed. Check Cloudflare Worker logs."}, {status:503,headers:{"cache-control":"no-store"}});
       }
     }
     return env.ASSETS.fetch(request);
