@@ -58,3 +58,8 @@
 .work-section.section{padding-bottom:48px}
 .areas-section.section{padding-top:48px}
 @media(max-width:680px){.work-section.section{padding-bottom:32px}.areas-section.section{padding-top:32px}}
+
+/* Compact Star Wars-inspired hero tagline badge. */
+.hero-visual .hero-tag{right:12px;bottom:16px;gap:8px;padding:9px 13px;font-size:9px;line-height:1.35;letter-spacing:.035em;max-width:210px;box-shadow:0 6px 18px #0003}
+.hero-visual .hero-tag .tag-icon{font-size:19px}
+@media(max-width:680px){.hero-visual .hero-tag{right:8px;bottom:8px;padding:7px 10px;font-size:8px;gap:6px}}
