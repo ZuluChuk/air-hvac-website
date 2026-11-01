@@ -54,7 +54,10 @@ document.querySelector('#year').textContent = new Date().getFullYear();
   }).addTo(map);
   try {
     const response = await fetch('/api/service-isochrone', {signal:AbortSignal.timeout(15000)});
-    if (!response.ok) throw new Error('Isochrone service unavailable');
+    if (!response.ok) {
+      const problem = await response.json().catch(() => ({}));
+      throw new Error(problem.message || 'Isochrone service unavailable');
+    }
     const {geojson,origin} = await response.json();
     const region = L.geoJSON(geojson, {
       style:{color:'#b91e8d',weight:3,opacity:.9,fillColor:'#b91e8d',fillOpacity:.18},
@@ -68,7 +71,7 @@ document.querySelector('#year').textContent = new Date().getFullYear();
     console.warn('Driving isochrone unavailable:',error.message);
     const message = document.createElement('p');
     message.className = 'isochrone-error';
-    message.textContent = 'The 60-minute driving boundary is temporarily unavailable. Please contact us with your postcode to check coverage.';
+    message.textContent = 'The 60-minute driving boundary is temporarily unavailable. ' + error.message;
     element.insertAdjacentElement('afterend',message);
   }
   map.whenReady(() => setTimeout(() => map.invalidateSize(),0));
