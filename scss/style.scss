@@ -66,3 +66,7 @@
 .email-panel .email-button{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;margin:0 0 22px;padding:12px 16px}
 .email-panel .contact-helper{margin-top:0}
 @media(max-width:620px){.email-panel .contact-button-row{grid-template-columns:1fr;gap:10px}}
+/* Compact Star Wars-inspired hero tagline badge. */
+.hero-visual .hero-tag{right:12px;bottom:16px;gap:8px;padding:9px 13px;font-size:9px;line-height:1.35;letter-spacing:.035em;max-width:210px;box-shadow:0 6px 18px #0003}
+.hero-visual .hero-tag .tag-icon{font-size:19px}
+@media(max-width:680px){.hero-visual .hero-tag{right:8px;bottom:8px;padding:7px 10px;font-size:8px;gap:6px}}
