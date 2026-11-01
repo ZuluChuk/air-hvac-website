@@ -39,7 +39,7 @@ export default {
         const postcode = await postcodeResponse.json();
         const {latitude, longitude} = postcode.result || {};
         if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) throw new Error("Invalid postcode coordinates");
-        const response = await fetch("https://api.openrouteservice.org/v2/isochrones/driving-car", {
+        const response = await fetch("https://api.heigit.org/openrouteservice/v2/isochrones/driving-car", {
           method:"POST",
           headers:{"Authorization":env.OPENROUTESERVICE_API_KEY,"Content-Type":"application/json","Accept":"application/geo+json"},
           body:JSON.stringify({locations:[[longitude,latitude]],range:[3600],range_type:"time"})
