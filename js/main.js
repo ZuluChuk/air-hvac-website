@@ -14,7 +14,7 @@ document.querySelector('#year').textContent = new Date().getFullYear();
 // Images are never requested directly from Instagram in browser JavaScript with a secret token.
 (async () => {
   try {
-    const response = await fetch('/api/instagram', { signal: AbortSignal.timeout(4500) });
+    const response = await fetch('/api/instagram', { signal: AbortSignal.timeout(60000) });
     const payload = await response.json();
     if (!response.ok || payload.configured === false || payload.unavailable) {
       console.warn('Instagram feed unavailable:', payload.reason || 'request_failed');
