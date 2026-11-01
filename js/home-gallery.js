@@ -1,16 +1,29 @@
-// A compact, balanced selection of existing portfolio photographs.
+// Show eight random existing portfolio photos, balanced across project categories.
 (() => {
   const container = document.querySelector('#home-project-grid');
   const projects = window.AIR_HVAC_PROJECTS;
   if (!container || !Array.isArray(projects)) return;
+
+  const shuffle = items => {
+    const result = [...items];
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  };
+
   const selected = [];
-  const maxPerProject = 2;
   projects.forEach(project => {
-    (project.gallery || []).filter(path => path.startsWith('images/portfolio/') && path.endsWith('.webp')).slice(0, maxPerProject).forEach(path => {
+    const photos = [...new Set((project.gallery || []).filter(path =>
+      path.startsWith('images/portfolio/') && path.endsWith('.webp')
+    ))];
+    shuffle(photos).slice(0, 2).forEach(path => {
       selected.push({path, title: project.title});
     });
   });
-  selected.forEach(({path, title}, index) => {
+
+  shuffle(selected).slice(0, 8).forEach(({path, title}) => {
     const link = document.createElement('a');
     link.href = path;
     link.target = '_blank';
