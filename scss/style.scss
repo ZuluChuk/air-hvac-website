@@ -60,6 +60,12 @@
 .areas-section.section{padding-top:48px}
 @media(max-width:680px){.work-section.section{padding-bottom:32px}.areas-section.section{padding-top:32px}}
 
+/* Consistent contact action layout: no cramped or touching buttons. */
+.email-panel .contact-button-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0 12px}
+.email-panel .contact-button-row .btn{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;min-height:56px;padding:12px 10px;margin:0;text-align:center;white-space:normal;line-height:1.35}
+.email-panel .email-button{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;margin:0 0 22px;padding:12px 16px}
+.email-panel .contact-helper{margin-top:0}
+@media(max-width:620px){.email-panel .contact-button-row{grid-template-columns:1fr;gap:10px}}
 /* Compact Star Wars-inspired hero tagline badge. */
 .hero-visual .hero-tag{right:12px;bottom:16px;gap:8px;padding:9px 13px;font-size:9px;line-height:1.35;letter-spacing:.035em;max-width:210px;box-shadow:0 6px 18px #0003}
 .hero-visual .hero-tag .tag-icon{font-size:19px}
