@@ -91,3 +91,6 @@
 .clients-section .client-name small{display:block;color:#61717a;font-size:11px;font-weight:500;line-height:1.35}
 .clients-section .clients-disclaimer{margin-top:18px;color:#61717a;font-size:12px}
 @media(max-width:800px){.clients-section .clients-grid{grid-template-columns:none;grid-auto-columns:minmax(175px,43%);grid-auto-flow:column;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:12px;-webkit-overflow-scrolling:touch}.clients-section .client-name{scroll-snap-align:start}}
+/* Ensure review heading is readable on the dark background. */
+.google-reviews-section .google-reviews-copy h2{color:#fff}
+.google-reviews-section .google-reviews-copy h2 span{color:#29bde9}

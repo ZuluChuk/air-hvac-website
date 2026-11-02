@@ -52,10 +52,13 @@ document.querySelector('#year').textContent = new Date().getFullYear();
     attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
     maxZoom:18
   }).addTo(map);
+  let boundaryLoaded = false;
   try {
-    // Load a locally saved 60-minute driving isochrone; no live routing API call.
-    const response = await fetch('/data/service-isochrone.geojson');
-    if (!response.ok) throw new Error('Saved boundary unavailable');
+    const response = await fetch('/api/service-isochrone', {signal:AbortSignal.timeout(45000)});
+    if (!response.ok) {
+      const problem = await response.json().catch(() => ({}));
+      throw new Error(problem.message || 'Isochrone service unavailable');
+    }
     const {geojson,origin} = await response.json();
     if (geojson?.type !== 'FeatureCollection' || !geojson.features?.length) throw new Error('Invalid boundary');
     const region = L.geoJSON(geojson, {
@@ -66,11 +69,15 @@ document.querySelector('#year').textContent = new Date().getFullYear();
       radius:6,color:'#090022',weight:2,fillColor:'#29bde9',fillOpacity:1
     }).bindPopup('Starting postcode: TW16 6PQ').addTo(map);
     map.fitBounds(region.getBounds(),{padding:[20,20]});
+    boundaryLoaded = true;
   } catch(error) {
     console.warn('Saved driving boundary unavailable:',error.message);
     const message = document.createElement('p');
     message.className = 'isochrone-error';
-    message.textContent = 'The saved driving boundary could not be displayed. Contact us with your postcode to confirm coverage.';
+    message.textContent = 'Live 60-minute driving boundary unavailable. Showing an approximate local coverage guide instead; contact us with your postcode to confirm.';
+    L.circle([51.411725,-0.424129],{radius:45000,color:'#b91e8d',weight:2,dashArray:'8 7',fillColor:'#b91e8d',fillOpacity:.12,interactive:false}).addTo(map);
+    L.circleMarker([51.411725,-0.424129],{radius:6,color:'#090022',weight:2,fillColor:'#29bde9',fillOpacity:1}).bindPopup('Starting postcode: TW16 6PQ').addTo(map);
+    map.setView([51.411725,-0.424129],9);
     element.insertAdjacentElement('afterend',message);
   }
   map.whenReady(() => setTimeout(() => map.invalidateSize(),0));
