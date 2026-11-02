@@ -32,6 +32,10 @@ export default {
       if (!env.OPENROUTESERVICE_API_KEY) {
         return Response.json({error:"routing_not_configured",message:"Cloudflare secret OPENROUTESERVICE_API_KEY is missing from this deployment."}, {status:503,headers:{"cache-control":"no-store"}});
       }
+      const cache = caches.default;
+      const cacheKey = new Request(url.origin + "/api/service-isochrone");
+      const cached = await cache.match(cacheKey);
+      if (cached) return cached;
       try {
         // Resolve only the business origin postcode; never geolocate site visitors.
         const postcodeResponse = await fetch("https://api.postcodes.io/postcodes/TW166PQ");
@@ -52,7 +56,9 @@ export default {
         }
         const geojson = await response.json();
         if (geojson.type !== "FeatureCollection" || !Array.isArray(geojson.features) || !geojson.features.length) throw new Error("No isochrone geometry");
-        return Response.json({origin:{latitude,longitude,postcode:"TW16 6PQ"},geojson}, {headers:{"cache-control":"public, max-age=86400"}});
+        const result = Response.json({origin:{latitude,longitude,postcode:"TW16 6PQ"},geojson}, {headers:{"cache-control":"public, max-age=604800"}});
+        await cache.put(cacheKey, result.clone());
+        return result;
       } catch(error) {
         console.error("Service isochrone error",error.message);
         return Response.json({error:"routing_unavailable",message:"Postcode lookup, routing request, or response processing failed. Check Cloudflare Worker logs."}, {status:503,headers:{"cache-control":"no-store"}});
