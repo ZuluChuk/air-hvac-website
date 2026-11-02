@@ -1,9 +1,9 @@
-// Show eight random existing portfolio photos, balanced across project categories.
+// Render up to eight random working portfolio images, balanced across categories.
+// Missing/deleted images are skipped and replaced from the remaining candidates.
 (() => {
   const container = document.querySelector('#home-project-grid');
   const projects = window.AIR_HVAC_PROJECTS;
   if (!container || !Array.isArray(projects)) return;
-
   const shuffle = items => {
     const result = [...items];
     for (let i = result.length - 1; i > 0; i--) {
@@ -12,30 +12,42 @@
     }
     return result;
   };
-
-  const selected = [];
-  projects.forEach(project => {
-    const photos = [...new Set((project.gallery || []).filter(path =>
-      path.startsWith('images/portfolio/') && path.endsWith('.webp')
-    ))];
-    shuffle(photos).slice(0, 2).forEach(path => {
-      selected.push({path, title: project.title});
-    });
-  });
-
-  shuffle(selected).slice(0, 8).forEach(({path, title}) => {
-    const link = document.createElement('a');
-    link.href = path;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.className = 'home-project-photo';
-    link.setAttribute('aria-label', 'View installation photo: ' + title);
-    const img = document.createElement('img');
-    img.src = path;
-    img.alt = title;
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    link.append(img);
-    container.append(link);
-  });
+  const groups = projects.map(project => shuffle([...new Set((project.gallery || []).filter(path =>
+    typeof path === 'string' && /^images\\/portfolio\\/[\\w-]+\\.webp$/.test(path)
+  ))]).map(path => ({path, title:project.title})));
+  const candidates = [];
+  // Interleave categories for variety even if some categories have missing files.
+  while (groups.some(group => group.length)) {
+    shuffle(groups).forEach(group => {if (group.length) candidates.push(group.shift());});
+  }
+  const target = 8;
+  let next = 0;
+  let loaded = 0;
+  let inFlight = 0;
+  const fill = () => {
+    while (loaded + inFlight < target && next < candidates.length) {
+      const {path,title} = candidates[next++];
+      inFlight++;
+      const img = new Image();
+      img.alt = title;
+      img.loading = 'eager';
+      img.decoding = 'async';
+      img.onload = () => {
+        inFlight--;
+        loaded++;
+        const link = document.createElement('a');
+        link.href = path;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.className = 'home-project-photo';
+        link.setAttribute('aria-label','View installation photo: '+title);
+        link.append(img);
+        container.append(link);
+        fill();
+      };
+      img.onerror = () => {inFlight--;fill();};
+      img.src = path;
+    }
+  };
+  fill();
 })();
