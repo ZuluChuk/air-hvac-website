@@ -53,12 +53,11 @@ document.querySelector('#year').textContent = new Date().getFullYear();
     maxZoom:18
   }).addTo(map);
   try {
-    const response = await fetch('/api/service-isochrone', {signal:AbortSignal.timeout(15000)});
-    if (!response.ok) {
-      const problem = await response.json().catch(() => ({}));
-      throw new Error(problem.message || 'Isochrone service unavailable');
-    }
+    // Load a locally saved 60-minute driving isochrone; no live routing API call.
+    const response = await fetch('/data/service-isochrone.geojson');
+    if (!response.ok) throw new Error('Saved boundary unavailable');
     const {geojson,origin} = await response.json();
+    if (geojson?.type !== 'FeatureCollection' || !geojson.features?.length) throw new Error('Invalid boundary');
     const region = L.geoJSON(geojson, {
       style:{color:'#b91e8d',weight:3,opacity:.9,fillColor:'#b91e8d',fillOpacity:.18},
       interactive:false
@@ -68,10 +67,10 @@ document.querySelector('#year').textContent = new Date().getFullYear();
     }).bindPopup('Starting postcode: TW16 6PQ').addTo(map);
     map.fitBounds(region.getBounds(),{padding:[20,20]});
   } catch(error) {
-    console.warn('Driving isochrone unavailable:',error.message);
+    console.warn('Saved driving boundary unavailable:',error.message);
     const message = document.createElement('p');
     message.className = 'isochrone-error';
-    message.textContent = 'The 60-minute driving boundary is temporarily unavailable. ' + error.message;
+    message.textContent = 'The saved driving boundary could not be displayed. Contact us with your postcode to confirm coverage.';
     element.insertAdjacentElement('afterend',message);
   }
   map.whenReady(() => setTimeout(() => map.invalidateSize(),0));
