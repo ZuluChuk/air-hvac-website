@@ -60,6 +60,7 @@ document.querySelector('#year').textContent = new Date().getFullYear();
       throw new Error(problem.message || 'Isochrone service unavailable');
     }
     const {geojson,origin} = await response.json();
+    if (geojson?.type !== 'FeatureCollection' || !geojson.features?.length) throw new Error('Invalid boundary');
     const region = L.geoJSON(geojson, {
       style:{color:'#b91e8d',weight:3,opacity:.9,fillColor:'#b91e8d',fillOpacity:.18},
       interactive:false
@@ -70,7 +71,7 @@ document.querySelector('#year').textContent = new Date().getFullYear();
     map.fitBounds(region.getBounds(),{padding:[20,20]});
     boundaryLoaded = true;
   } catch(error) {
-    console.warn('Driving isochrone unavailable:',error.message);
+    console.warn('Saved driving boundary unavailable:',error.message);
     const message = document.createElement('p');
     message.className = 'isochrone-error';
     message.textContent = 'Live 60-minute driving boundary unavailable. Showing an approximate local coverage guide instead; contact us with your postcode to confirm.';
