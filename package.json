@@ -2,7 +2,7 @@
   "name": "air-hvac-website",
   "private": true,
   "scripts": {
-    "build:css": "sass --no-source-map scss/style.scss css/style.css",
+    "build:css": "sass --no-source-map --style=compressed scss/style.scss css/style.css",
     "watch:css": "sass --watch --no-source-map scss/style.scss css/style.css",
     "build": "npm run build:css",
     "deploy": "npm run build && wrangler deploy"
