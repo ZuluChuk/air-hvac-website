@@ -1,0 +1,103 @@
+@use "tokens" as theme;
+
+@mixin apply {
+// Full-bleed cinematic hero. Image remains the slideshow target.
+.hero--letterbox {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(470px, 42vw, 700px);
+  display: flex;
+  align-items: center;
+  background: theme.$navy;
+
+  .hero-visual--full {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: -1;
+
+    > img, > .hero-crossfade-layer {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      object-fit: cover;
+      object-position: center 45%;
+      border-radius: 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(9,0,34,.93) 0%, rgba(9,0,34,.82) 33%, rgba(9,0,34,.38) 67%, rgba(9,0,34,.16) 100%);
+    }
+  }
+
+  .hero-grid {
+    position: relative;
+    display: block;
+    width: min(1180px, calc(100% - 48px));
+    min-height: 0;
+    padding-block: clamp(64px, 7vw, 112px);
+  }
+
+  .hero-copy {
+    max-width: 640px;
+    padding: 0;
+    position: relative;
+    z-index: 3;
+
+    > p { color: #e0e6ed; }
+  }
+
+  .hero-tag {
+    position: absolute;
+    z-index: 4;
+    right: max(24px, calc((100vw - 1180px) / 2));
+    bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 13px;
+    max-width: 210px;
+    background: #fff;
+    color: theme.$navy;
+    font-size: 9px;
+    line-height: 1.35;
+    letter-spacing: .035em;
+    box-shadow: 0 6px 18px #0003;
+    .tag-icon { font-size: 19px; color: theme.$cyan; }
+  }
+}
+
+@media (max-width: 680px) {
+  .hero--letterbox {
+    min-height: 580px;
+    align-items: flex-start;
+
+    .hero-visual--full {
+      > img, > .hero-crossfade-layer { object-position: 58% center; }
+      &::after { background: linear-gradient(180deg, rgba(9,0,34,.91) 0%, rgba(9,0,34,.77) 50%, rgba(9,0,34,.33) 100%); }
+    }
+
+    .hero-grid {
+      width: calc(100% - 34px);
+      padding-block: 58px 100px;
+    }
+
+    .hero-copy {
+      max-width: 100%;
+      h1 { font-size: clamp(43px, 10vw, 62px); }
+      > p { font-size: 15px; }
+    }
+
+    .hero-tag { right: 17px; bottom: 15px; }
+  }
+}
+
+}
