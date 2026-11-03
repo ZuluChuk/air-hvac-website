@@ -12,6 +12,7 @@ $container-width: 1180px;
 $mobile: 680px;
 $tablet: 900px;
 
+@mixin apply {
 .wrap {
   width: min(#{$container-width}, calc(100% - 48px));
   margin-inline: auto;
@@ -107,4 +108,6 @@ $tablet: 900px;
 @media (max-width: $mobile) {
   .work-section.section { padding-bottom: $space-5; }
   .areas-section.section { padding-top: $space-5; }
+}
+
 }
