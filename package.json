@@ -4,8 +4,9 @@
   "scripts": {
     "build:css": "sass --no-source-map --style=compressed scss/style.scss css/style.css",
     "watch:css": "sass --watch --no-source-map scss/style.scss css/style.css",
-    "build": "npm run build:css",
-    "deploy": "npm run build && wrangler deploy"
+    "build": "npm run build:css && npm run build:gallery",
+    "deploy": "npm run build && wrangler deploy",
+    "build:gallery": "node scripts/generate-gallery-manifest.mjs"
   },
   "devDependencies": {
     "sass": "^1.93.0",

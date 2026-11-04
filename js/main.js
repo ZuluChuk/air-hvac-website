@@ -9,39 +9,6 @@ nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => 
 }));
 document.querySelector('#year').textContent = new Date().getFullYear();
 // No form: email links use the visitor’s own email application.
-// Optional gallery integration: add /api/instagram on Cloudflare Pages later.
-// It should return { posts: [{ imageUrl, permalink, caption }] }.
-// Images are never requested directly from Instagram in browser JavaScript with a secret token.
-(async () => {
-  try {
-    const response = await fetch('/api/instagram', { signal: AbortSignal.timeout(60000) });
-    const payload = await response.json();
-    if (!response.ok || payload.configured === false || payload.unavailable) {
-      console.warn('Instagram feed unavailable:', payload.reason || 'request_failed');
-      return;
-    }
-    const { posts } = payload;
-    if (!Array.isArray(posts) || !posts.length) {
-      console.info('Instagram feed: no posts returned');
-      return;
-    }
-    const gallery = document.querySelector('#instagram-gallery');
-    const validPosts = posts.filter(post => /^https:\/\//.test(post.imageUrl || '') && /^https:\/\/(www\.)?instagram\.com\//.test(post.permalink || ''));
-    if (!validPosts.length) return;
-    gallery.replaceChildren();
-    validPosts.slice(0, 4).forEach(post => {
-      if (!/^https:\/\//.test(post.imageUrl || '') || !/^https:\/\/(www\.)?instagram\.com\//.test(post.permalink || '')) return;
-      const a = document.createElement('a'); a.className = 'gallery-card';
-      a.href = post.permalink; a.target = '_blank'; a.rel = 'noopener noreferrer';
-      const img = document.createElement('img'); img.src = post.imageUrl;
-      img.loading = 'lazy'; img.alt = (post.caption || 'AIR HVAC Instagram project').slice(0, 130);
-      const label = document.createElement('span'); label.className = 'gallery-label';
-      label.textContent = (post.caption || 'View project on Instagram').slice(0, 55) + ' ↗';
-      a.append(img, label); gallery.append(a);
-    });
-  } catch { /* Preserve the curated fallback gallery */ }
-})();
-
 // Road-network isochrone: 60-minute drive from the business origin postcode.
 (async () => {
   const element = document.getElementById('service-area-map');

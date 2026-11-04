@@ -12,3 +12,5 @@ README.md
 .dev.vars*
 node_modules/**
 package*.json
+scss/**
+scripts/**

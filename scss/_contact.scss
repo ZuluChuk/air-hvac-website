@@ -1,0 +1,68 @@
+@use "tokens" as theme;
+
+// The direct-contact card is white: do not inherit white text intended for the dark section.
+@mixin apply {
+  .contact-section .email-panel {
+    > p {
+      color: #4c5968;
+      max-width: none;
+    }
+
+    .contact-helper {
+      color: #4c5968;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .contact-button-row {
+      a.btn.secondary {
+        gap: 8px;
+        min-height: 56px;
+        font-weight: 800;
+        text-decoration: none;
+
+        &:first-child {
+          background: theme.$navy;
+          border-color: theme.$navy;
+          color: theme.$white;
+
+          &:hover {
+            background: theme.$navy-soft;
+            border-color: theme.$navy-soft;
+          }
+        }
+
+        &:last-child {
+          background: theme.$magenta;
+          border-color: theme.$magenta;
+          color: theme.$white;
+
+          &:hover {
+            background: #8e176c;
+            border-color: #8e176c;
+          }
+        }
+
+        &:focus-visible {
+          outline: 3px solid theme.$cyan;
+          outline-offset: 3px;
+        }
+      }
+    }
+
+    .email-button {
+      background: theme.$cyan;
+      color: theme.$navy;
+
+      &:hover {
+        background: #78d9f3;
+        color: theme.$navy;
+      }
+    }
+
+    .phone-placeholder {
+      color: theme.$navy;
+      small { color: #536170; }
+    }
+  }
+}
