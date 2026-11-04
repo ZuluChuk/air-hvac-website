@@ -13,7 +13,7 @@ All public website content is on `index.html`:
 - About: `/#about`
 - Contact: `/#contact`
 
-There is **no separate portfolio or project detail page**. Legacy `/portfolio.html`, `/project.html`, `/portfolio` and `/project` requests redirect permanently to `/#portfolio`.
+There is **no separate portfolio or project detail page**. Legacy `/portfolio.html`, `/project.html`, `/portfolio` and `/project` requests redirect permanently to `/#portfolio` through the `_redirects` static-asset rules.
 
 `js/portfolio-data.js` is intentionally retained: the rotating hero photo slideshow uses its project photo groups. `portfolio-photo-manifest.json` is a source-photo reference, not a page.
 
@@ -35,7 +35,7 @@ Cloudflare Git deploy settings:
 
 The build compiles `scss/style.scss` to `css/style.css` and generates `js/gallery-manifest.js` from the images actually available under `images/`. Both generated files are ignored by Git.
 
-The Cloudflare Worker serves static assets and the secure `/api/instagram` endpoint; it also handles redirects for removed portfolio URLs. `wrangler.jsonc` keeps those paths in `assets.run_worker_first`.
+The Cloudflare Worker serves static assets and the secure `/api/instagram` endpoint. The `_redirects` file handles obsolete portfolio URLs, while the original `wrangler.jsonc` remains unchanged.
 
 ## Marketing and contact
 

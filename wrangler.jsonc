@@ -9,12 +9,6 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
-    "run_worker_first": [
-      "/api/*",
-      "/portfolio.html",
-      "/project.html",
-      "/portfolio",
-      "/project"
-    ]
+    "run_worker_first": ["/api/*"]
   }
 }

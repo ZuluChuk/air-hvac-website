@@ -5,7 +5,7 @@
 - AIR HVAC is intentionally a **single-page website**. All service information, Instagram posts and installation portfolio photos live on the homepage.
 - The portfolio is available at `https://www.airhvac.co.uk/#portfolio`; Instagram is `#work`. These anchors are not separate indexed pages.
 - `sitemap.xml` intentionally lists only `https://www.airhvac.co.uk/`. **Do not add** `portfolio.html`, `project.html` or fragment URLs to the sitemap.
-- Old `/portfolio.html`, `/project.html`, `/portfolio` and `/project` routes permanently redirect to `/#portfolio` through the Worker. Cloudflare's `run_worker_first` configuration includes these routes.
+- Old `/portfolio.html`, `/project.html`, `/portfolio` and `/project` routes permanently redirect to `/#portfolio` through Cloudflare static assets' `_redirects` file. No Worker code or routing-configuration changes are required.
 - The homepage supplies its own `<title>`, description, canonical URL, and JSON-LD `HVACBusiness` schema. Confirm the business details match the Google Business Profile.
 - `robots.txt` points to the single-page sitemap.
 - Verify the domain in Google Search Console, inspect `https://www.airhvac.co.uk/`, and submit `https://www.airhvac.co.uk/sitemap.xml`.
