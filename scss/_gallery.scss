@@ -29,6 +29,83 @@
     }
   }
 
+
+  // Live Instagram feed precedes the separate eight-photo local portfolio.
+  .instagram-section {
+    background: theme.$paper;
+    #instagram-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      min-height: 155px;
+
+      .instagram-status {
+        grid-column: 1 / -1;
+        padding: 28px;
+        margin: 0;
+        background: #fff;
+        border-left: 4px solid theme.$magenta;
+        color: theme.$navy;
+        line-height: 1.6;
+
+        a { color: #8b176a; text-decoration: underline; font-weight: 800; }
+      }
+
+      .gallery-card {
+        display: block;
+        position: relative;
+        aspect-ratio: 1 / 1;
+        min-width: 0;
+        overflow: hidden;
+        border-radius: 5px;
+        background: #dce5e8;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 250ms ease;
+        }
+        &:hover img { transform: scale(1.045); }
+        &:focus-visible { outline: 3px solid theme.$magenta; outline-offset: 3px; }
+        .gallery-label {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 24px 13px 13px;
+          background: linear-gradient(transparent, rgba(9, 0, 34, .88));
+          color: #fff;
+          font-size: 12px;
+          font-weight: 750;
+          line-height: 1.35;
+          border: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+
+  .portfolio-preview-section {
+    background: #fff;
+    scroll-margin-top: 86px;
+  }
+
+  @media (max-width: 900px) {
+    .instagram-section #instagram-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 480px) {
+    .instagram-section #instagram-gallery { gap: 9px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .instagram-section #instagram-gallery .gallery-card img { transition: none; }
+  }
+
   @media (max-width: 900px) {
     .work-section #home-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
