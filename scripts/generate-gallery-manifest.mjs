@@ -26,8 +26,9 @@ await visit(imagesRoot);
 paths.sort();
 const target = path.join(root, 'js', 'gallery-manifest.js');
 await mkdir(path.dirname(target), { recursive: true });
-await writeFile(target,
-  '// Generated during the Cloudflare build; do not edit.\\n'.replace('\\n','\n') +
-  'window.AIR_HVAC_GALLERY_IMAGES = ' + JSON.stringify(paths, null, 2) + ';\n'
-);
+await writeFile(target, [
+  '// Generated during the Cloudflare build; do not edit.',
+  'window.AIR_HVAC_GALLERY_IMAGES = ' + JSON.stringify(paths, null, 2) + ';',
+  ''
+].join('\n'));
 console.log('Gallery manifest generated with ' + paths.length + ' available photos.');
