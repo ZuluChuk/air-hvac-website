@@ -3,6 +3,10 @@ const API_VERSION = "v25.0";
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // Legacy multi-page portfolio routes now resolve to the single-page portfolio.
+    if (["/portfolio.html", "/project.html", "/portfolio", "/project"].includes(url.pathname)) {
+      return Response.redirect(new URL("/#portfolio", url.origin).toString(), 301);
+    }
     if (url.pathname === "/api/instagram") {
       if (request.method !== "GET") return new Response("Method not allowed", {status:405});
       if (!env.INSTAGRAM_ACCESS_TOKEN || !env.INSTAGRAM_USER_ID) {
