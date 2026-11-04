@@ -1,103 +1,143 @@
 @use "tokens" as theme;
 
+// Full-width cinematic image and centred copy; height reduced from the original banner.
 @mixin apply {
-// Full-bleed cinematic hero. Image remains the slideshow target.
-.hero--letterbox {
-  position: relative;
-  isolation: isolate;
-  min-height: clamp(470px, 42vw, 700px);
-  display: flex;
-  align-items: center;
-  background: theme.$navy;
-
-  .hero-visual--full {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    z-index: -1;
-
-    > img, > .hero-crossfade-layer {
-      position: absolute;
-      inset: 0;
-      display: block;
-      width: 100%;
-      height: 100%;
-      aspect-ratio: auto;
-      object-fit: cover;
-      object-position: center 45%;
-      border-radius: 0;
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      background: linear-gradient(90deg, rgba(9,0,34,.93) 0%, rgba(9,0,34,.82) 33%, rgba(9,0,34,.38) 67%, rgba(9,0,34,.16) 100%);
-    }
-  }
-
-  .hero-grid {
-    position: relative;
-    display: block;
-    width: min(1180px, calc(100% - 48px));
-    min-height: 0;
-    padding-block: clamp(64px, 7vw, 112px);
-  }
-
-  .hero-copy {
-    max-width: 640px;
-    padding: 0;
-    position: relative;
-    z-index: 3;
-
-    > p { color: #e0e6ed; }
-  }
-
-  .hero-tag {
-    position: absolute;
-    z-index: 4;
-    right: max(24px, calc((100vw - 1180px) / 2));
-    bottom: 22px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 13px;
-    max-width: 210px;
-    background: #fff;
-    color: theme.$navy;
-    font-size: 9px;
-    line-height: 1.35;
-    letter-spacing: .035em;
-    box-shadow: 0 6px 18px #0003;
-    .tag-icon { font-size: 19px; color: theme.$cyan; }
-  }
-}
-
-@media (max-width: 680px) {
   .hero--letterbox {
-    min-height: 580px;
-    align-items: flex-start;
+    --hero-parallax-y: 0px;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: theme.$navy;
+    display: grid;
+    place-items: center;
+    min-height: clamp(415px, 54svh, 540px);
+    color: #fff;
 
     .hero-visual--full {
-      > img, > .hero-crossfade-layer { object-position: 58% center; }
-      &::after { background: linear-gradient(180deg, rgba(9,0,34,.91) 0%, rgba(9,0,34,.77) 50%, rgba(9,0,34,.33) 100%); }
+      position: absolute;
+      inset: -110px 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      transform: translate3d(0, var(--hero-parallax-y), 0);
+      will-change: transform;
+
+      > img, > .hero-crossfade-layer {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+        border-radius: 0;
+        object-fit: cover;
+        object-position: center 48%;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background: linear-gradient(90deg, rgba(9,0,34,.78), rgba(9,0,34,.57) 50%, rgba(9,0,34,.76));
+      }
     }
 
     .hero-grid {
-      width: calc(100% - 34px);
-      padding-block: 58px 100px;
+      position: relative;
+      z-index: 2;
+      width: min(1180px, calc(100% - 48px));
+      display: block;
+      min-height: 0;
+      margin: auto;
+      padding-block: 46px 74px;
     }
 
     .hero-copy {
-      max-width: 100%;
-      h1 { font-size: clamp(43px, 10vw, 62px); }
-      > p { font-size: 15px; }
+      position: relative;
+      z-index: 3;
+      max-width: none;
+      padding: 0;
+      text-align: center;
+
+      .eyebrow { justify-content: center; gap: 12px; color: #d3eff9; }
+      h1 {
+        max-width: 1120px;
+        margin: 15px auto 18px;
+        font-size: clamp(42px, 5.3vw, 76px);
+        line-height: 1.05;
+        letter-spacing: -.055em;
+        text-wrap: balance;
+      }
+      > p {
+        max-width: 790px;
+        margin: 0 auto;
+        font-size: clamp(15px, 1.5vw, 18px);
+        line-height: 1.55;
+        color: #e7e7f3;
+      }
+      .actions {
+        justify-content: center;
+        gap: 12px;
+        margin: 23px 0;
+        .btn { gap: 12px; }
+        .secondary {
+          color: #fff;
+          border-color: rgba(255,255,255,.8);
+          background: rgba(9,0,34,.3);
+          &:hover, &:focus-visible { background: rgba(9,0,34,.75); }
+        }
+      }
+      .hero-trust { justify-content: center; gap: 12px 22px; color: #e3dfec; font-size: 12px; }
     }
 
-    .hero-tag { right: 17px; bottom: 15px; }
+    .hero-tag {
+      position: absolute;
+      z-index: 3;
+      right: max(20px, calc((100vw - 1180px) / 2));
+      bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      max-width: 210px;
+      border-radius: 3px;
+      background: #fff;
+      color: theme.$navy;
+      font-size: 9px;
+      line-height: 1.35;
+      letter-spacing: .035em;
+      box-shadow: 0 6px 18px #0003;
+      .tag-icon { font-size: 19px; color: theme.$cyan; }
+    }
   }
-}
 
+  @media (max-width: 680px) {
+    .hero--letterbox {
+      min-height: clamp(465px, 68svh, 555px);
+      .hero-visual--full {
+        > img, > .hero-crossfade-layer { object-position: 58% center; }
+        &::after { background: linear-gradient(180deg, rgba(9,0,34,.81), rgba(9,0,34,.62) 60%, rgba(9,0,34,.74)); }
+      }
+      .hero-grid { width: calc(100% - 34px); padding-block: 43px 82px; }
+      .hero-copy {
+        h1 { font-size: clamp(38px, 9.5vw, 58px); margin-block: 13px 16px; }
+        > p { max-width: 530px; font-size: 15px; }
+        .actions { margin: 20px 0; flex-wrap: wrap; .btn { min-height: 48px; } }
+        .hero-trust { gap: 8px 14px; font-size: 11px; }
+      }
+      .hero-tag { right: 17px; bottom: 12px; }
+    }
+  }
+
+  @media (max-width: 380px) {
+    .hero--letterbox .hero-copy {
+      h1 { font-size: 36px; }
+      .actions .btn { width: 100%; }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero--letterbox .hero-visual--full { transform: none; will-change: auto; }
+  }
 }
