@@ -37,6 +37,10 @@ The build compiles `scss/style.scss` to `css/style.css` and generates `js/galler
 
 The Cloudflare Worker serves static assets and the secure `/api/instagram` endpoint. The `_redirects` file handles obsolete portfolio URLs, while the original `wrangler.jsonc` remains unchanged.
 
+## Mobile performance
+
+The hero initially loads a real WebP installation photo directly from HTML at high priority; the rotating slideshow starts later. The Leaflet map library, stylesheets, tiles and saved `data/service-isochrone.geojson` boundary are fetched only when the map approaches the viewport. The static `_headers` file sets browser caching for images and generated assets, without caching HTML for long periods.
+
 ## Marketing and contact
 
 The current phone number, contact email and service areas are in the homepage. The email link opens the customer's mail app with a pre-filled enquiry, rather than a web contact form.

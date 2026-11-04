@@ -2,7 +2,7 @@
 
 // Responsive, edge-to-edge project-photo tiles, without placeholder graphics.
 @mixin apply {
-  .work-section #home-project-grid {
+  .portfolio-preview-section #home-project-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
@@ -107,14 +107,14 @@
   }
 
   @media (max-width: 900px) {
-    .work-section #home-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .portfolio-preview-section #home-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   @media (max-width: 480px) {
-    .work-section #home-project-grid { gap: 9px; }
+    .portfolio-preview-section #home-project-grid { gap: 9px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .work-section #home-project-grid .gallery-card img { transition: none; }
+    .portfolio-preview-section #home-project-grid .gallery-card img { transition: none; }
   }
 }
