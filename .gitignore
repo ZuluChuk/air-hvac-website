@@ -9,3 +9,6 @@ node_modules/
 # Compiled Sass output (generated during Cloudflare build)
 /css/*.css
 /css/*.css.map
+
+# Generated stylesheet (built from SCSS during deployment)
+/css/style.css
