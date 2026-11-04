@@ -12,3 +12,6 @@ node_modules/
 
 # Generated stylesheet (built from SCSS during deployment)
 /css/style.css
+
+# Build-generated list of available installation photos
+/js/gallery-manifest.js

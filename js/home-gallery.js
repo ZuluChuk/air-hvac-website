@@ -1,53 +1,52 @@
-// Render up to eight random working portfolio images, balanced across categories.
-// Missing/deleted images are skipped and replaced from the remaining candidates.
+// Shuffle the actual on-disk installation photos indexed during the Cloudflare build.
+// If the generated manifest is unavailable, keep the eight real fallback photos in index.html.
 (() => {
-  const container = document.querySelector('#home-project-grid');
-  const projects = window.AIR_HVAC_PROJECTS;
-  if (!container || !Array.isArray(projects)) return;
-  const shuffle = items => {
-    const result = [...items];
-    for (let i = result.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result;
-  };
-  const groups = projects.map(project => shuffle([...new Set((project.gallery || []).filter(path =>
-    typeof path === 'string' && /^images\\/portfolio\\/[\\w-]+\\.webp$/.test(path)
-  ))]).map(path => ({path, title:project.title})));
-  const candidates = [];
-  // Interleave categories for variety even if some categories have missing files.
-  while (groups.some(group => group.length)) {
-    shuffle(groups).forEach(group => {if (group.length) candidates.push(group.shift());});
+  const container = document.getElementById('home-project-grid');
+  const manifest = window.AIR_HVAC_GALLERY_IMAGES;
+  if (!container || !Array.isArray(manifest) || !manifest.length) return;
+
+  const photos = [...new Set(manifest.filter(path =>
+    typeof path === 'string' &&
+    /^images\/(?:[a-z0-9-]+\/)*[a-z0-9-]+\.(?:webp|jpg|jpeg|png|avif)$/i.test(path)
+  ))];
+  for (let i = photos.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [photos[i], photos[j]] = [photos[j], photos[i]];
   }
-  const target = 8;
+  if (!photos.length) return;
+
+  const titleFromPath = path => path.split('/').pop()
+    .replace(/-\d+\.[^.]+$/, '').replace(/\.[^.]+$/, '').replace(/-/g, ' ');
+  const maximum = Math.min(8, photos.length);
   let next = 0;
-  let loaded = 0;
-  let inFlight = 0;
-  const fill = () => {
-    while (loaded + inFlight < target && next < candidates.length) {
-      const {path,title} = candidates[next++];
-      inFlight++;
-      const img = new Image();
-      img.alt = title;
-      img.loading = 'eager';
-      img.decoding = 'async';
-      img.onload = () => {
-        inFlight--;
-        loaded++;
-        const link = document.createElement('a');
-        link.href = path;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.className = 'home-project-photo';
-        link.setAttribute('aria-label','View installation photo: '+title);
-        link.append(img);
-        container.append(link);
-        fill();
-      };
-      img.onerror = () => {inFlight--;fill();};
-      img.src = path;
-    }
-  };
-  fill();
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < maximum; i++) {
+    const link = document.createElement('a');
+    link.className = 'gallery-card';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.width = 440;
+    img.height = 330;
+    const tryNextPhoto = () => {
+      if (next >= photos.length) {
+        link.remove();
+        return;
+      }
+      const src = photos[next++];
+      const label = titleFromPath(src);
+      link.href = src;
+      link.setAttribute('aria-label', 'Open ' + label + ' installation photo');
+      img.alt = 'AIR HVAC ' + label + ' installation';
+      img.src = src;
+    };
+    img.onerror = tryNextPhoto;
+    link.append(img);
+    fragment.append(link);
+    tryNextPhoto();
+  }
+  container.replaceChildren(fragment);
 })();
