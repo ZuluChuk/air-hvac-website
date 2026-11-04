@@ -29,7 +29,7 @@
     } catch { return false; }
   };
 
-  (async () => {
+  const loadPosts = async () => {
     try {
       const response = await fetch('/api/instagram', {
         signal: AbortSignal.timeout(15000)
@@ -74,5 +74,17 @@
       console.warn('Instagram gallery unavailable:', error);
       fallback();
     }
-  })();
+  };
+
+  // Posts are below the initial viewport; fetch them only as visitors approach.
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      loadPosts();
+    }, { rootMargin: '500px 0px' });
+    observer.observe(gallery);
+  } else {
+    window.addEventListener('load', loadPosts, { once: true });
+  }
 })();
