@@ -62,9 +62,9 @@
       showError();
       return;
     }
+    element.replaceChildren(); // Remove the loading message before Leaflet creates its panes.
     const map = L.map(element, { scrollWheelZoom: false, attributionControl: true })
       .setView([origin.latitude, origin.longitude], 9);
-    element.replaceChildren(); // Remove fallback text after map has initialized.
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
       maxZoom: 18
