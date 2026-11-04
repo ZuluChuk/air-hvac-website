@@ -22,7 +22,7 @@
 
   let queue = [];
   let lastGroup = null;
-  let lastPhoto = null;
+  let lastPhoto = image.getAttribute("src");
   let timer;
   let generation = 0;
   const interval = 5000;
@@ -90,5 +90,7 @@
     window.clearTimeout(timer);
     if (!document.hidden && !reducedMotion) advance();
   });
-  advance();
+  // The server-rendered hero photo is visible immediately. Wait before the
+  // first transition so it remains the paint candidate on slow connections.
+  if (!reducedMotion) timer = window.setTimeout(advance, interval);
 })();

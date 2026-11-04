@@ -1,0 +1,12 @@
+# Existing HTML should always revalidate while frequently changing project assets can be cached.
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/css/*
+  Cache-Control: public, max-age=600, must-revalidate
+
+/js/*
+  Cache-Control: public, max-age=600, must-revalidate
+
+/data/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
