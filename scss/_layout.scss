@@ -31,7 +31,7 @@ $tablet: 900px;
 }
 
 // Consistent gutters and predictable minimum widths across the main grids.
-.hero-grid, .about-grid, .contact-grid, .portfolio-detail-grid {
+.hero-grid, .contact-grid, .portfolio-detail-grid {
   > * { min-width: 0; }
 }
 
@@ -80,7 +80,7 @@ $tablet: 900px;
   .section { padding-block: $space-7; }
   .hero-grid { gap: 0; }
   .hero-copy { padding: $space-7 0 $space-4; }
-  .about-grid, .contact-grid { gap: $space-5; }
+  .contact-grid { gap: $space-5; }
 }
 
 @media (max-width: $mobile) {
