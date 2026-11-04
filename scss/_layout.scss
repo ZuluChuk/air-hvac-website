@@ -1,0 +1,113 @@
+// Shared layout rhythm. All spacing changes live here rather than accumulating overrides.
+$space-1: 8px;
+$space-2: 12px;
+$space-3: 16px;
+$space-4: 24px;
+$space-5: 32px;
+$space-6: 48px;
+$space-7: 72px;
+$space-8: 96px;
+
+$container-width: 1180px;
+$mobile: 680px;
+$tablet: 900px;
+
+@mixin apply {
+.wrap {
+  width: min(#{$container-width}, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: $space-8;
+  scroll-margin-top: 86px;
+
+  &-heading {
+    gap: $space-5;
+    margin-bottom: $space-6;
+
+    > p { max-width: 380px; }
+  }
+}
+
+// Consistent gutters and predictable minimum widths across the main grids.
+.hero-grid, .about-grid, .contact-grid, .portfolio-detail-grid {
+  > * { min-width: 0; }
+}
+
+.services-grid, .areas-grid, .portfolio-grid, .gallery,
+.home-project-grid, .clients-grid {
+  > * { min-width: 0; }
+}
+
+.hero {
+  &-grid { gap: $space-6; }
+  &-copy { padding-block: $space-7; }
+  &-trust { column-gap: $space-4; row-gap: $space-2; }
+}
+
+.actions, .areas-actions, .portfolio-filters { gap: $space-2; }
+.btn { min-height: 48px; line-height: 1.35; }
+
+.services-explorer { margin-top: $space-6; }
+.explorer-intro { padding: $space-5 $space-5 $space-4; }
+.explorer-panel-content { padding: $space-5; }
+
+.gallery { gap: $space-3; }
+.home-projects { margin-top: $space-6; }
+.home-project-grid { gap: $space-2; }
+.gallery-footer { margin-top: $space-4; }
+
+.areas-map-wrap { margin-bottom: $space-5; }
+.areas-grid { gap: $space-3; }
+.areas-enquiry { margin-top: $space-4; }
+
+.clients-section {
+  .clients-grid { gap: $space-3; margin-top: 0; }
+  .client-name { padding: $space-3 $space-2; }
+}
+
+.google-reviews-section { padding-block: $space-7; }
+.google-reviews-card { gap: $space-5; }
+.contact-section { padding-block: $space-8; }
+.contact-grid { gap: $space-6; }
+.email-panel {
+  .contact-button-row { gap: $space-2; }
+  .contact-helper { line-height: 1.6; }
+}
+
+@media (max-width: $tablet) {
+  .section { padding-block: $space-7; }
+  .hero-grid { gap: 0; }
+  .hero-copy { padding: $space-7 0 $space-4; }
+  .about-grid, .contact-grid { gap: $space-5; }
+}
+
+@media (max-width: $mobile) {
+  .wrap { width: calc(100% - 34px); }
+  .section {
+    padding-block: $space-6;
+    &-heading { margin-bottom: $space-5; gap: $space-3; }
+  }
+  .hero-copy { padding: $space-6 0 $space-4; }
+  .actions { margin: $space-4 0 $space-5; }
+  .services-explorer, .home-projects { margin-top: $space-5; }
+  .explorer-intro, .explorer-panel-content { padding: $space-4; }
+  .gallery { gap: $space-2; }
+  .gallery-footer { flex-wrap: wrap; gap: $space-3; }
+  .areas-grid { gap: $space-3; }
+  .areas-enquiry { padding: $space-4; }
+  .contact-section { padding-block: $space-7; }
+  .contact-grid { gap: $space-5; }
+  .google-reviews-section { padding-block: $space-6; }
+}
+
+// Intentional tighter transition between adjacent project and service-area sections.
+.work-section.section { padding-bottom: $space-6; }
+.areas-section.section { padding-top: $space-6; }
+@media (max-width: $mobile) {
+  .work-section.section { padding-bottom: $space-5; }
+  .areas-section.section { padding-top: $space-5; }
+}
+
+}

@@ -5,3 +5,7 @@
 .dev.vars.*
 node_modules/
 .DS_Store
+
+# Compiled Sass output (generated during Cloudflare build)
+/css/*.css
+/css/*.css.map

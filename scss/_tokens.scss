@@ -1,0 +1,21 @@
+// AIR HVAC design tokens. Use these variables instead of hard-coded colours.
+$navy: #090022;
+$navy-soft: #18083b;
+$cyan: #29bde9;
+$magenta: #b91e8d;
+$white: #fff;
+$paper: #f7f5fa;
+$border: #e5dce9;
+$muted: #61717a;
+
+:root {
+  --navy: #{$navy};
+  --navy2: #{$navy-soft};
+  --blue: #{$cyan};
+  --ice: #e9f9ff;
+  --paper: #{$paper};
+  --line: #{$border};
+  --muted: #{$muted};
+  --brand-magenta: #{$magenta};
+  --brand-cyan: #{$cyan};
+}
