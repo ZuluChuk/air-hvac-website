@@ -39,7 +39,7 @@
     font-size: 13px;
     font-weight: 750;
   }
-  .analytics-consent-actions button[data-consent="accepted"] {
+  .analytics-consent-actions button:hover {
     background: #27c2ed;
     border-color: #27c2ed;
     color: #090022;
@@ -49,6 +49,12 @@
     outline-offset: 3px;
   }
 }
+
+.footer-inner > a[href="/privacy.html"] {
+  font-size: 12px;
+  color: #b0c3cc;
+}
+.footer-inner > a[href="/privacy.html"]:hover { color: #fff; }
 
 .analytics-preferences {
   padding: 0;
