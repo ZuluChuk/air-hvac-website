@@ -35,6 +35,8 @@ Cloudflare Git deploy settings:
 
 The build compiles `scss/style.scss` to `css/style.css` and generates `js/gallery-manifest.js` from the images actually available under `images/`. Both generated files are ignored by Git.
 
+**Pull-request previews:** `css/style.css` is not committed, so every preview must run the build before asset upload. The `build.command` in `wrangler.jsonc` runs `npm run build` as part of Wrangler's custom-build workflow. In Cloudflare **Workers & Pages → air-hvac-website → Settings → Build**, verify the **Build command** is `npm run build`, **Preview command** is `npx wrangler preview`, and preview builds are enabled. Cloudflare should upload the compiled `css/style.css` and generated gallery manifest; test a preview's `/css/style.css` endpoint if styling is missing.
+
 The Cloudflare Worker serves static assets and the secure `/api/instagram` endpoint. The `_redirects` file handles obsolete portfolio URLs, while the original `wrangler.jsonc` remains unchanged.
 
 ## Mobile performance
