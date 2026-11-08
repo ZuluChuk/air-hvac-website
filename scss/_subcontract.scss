@@ -1,0 +1,85 @@
+@use "tokens" as theme;
+
+@mixin apply {
+  .subcontract-section {
+    background: theme.$paper;
+    scroll-margin-top: 90px;
+  }
+
+  .subcontract-heading {
+    max-width: 780px;
+    margin-bottom: 30px;
+    .kicker {color: theme.$magenta;}
+    h2 {
+      font-size: clamp(34px, 4.2vw, 58px);
+      line-height: 1.15;
+      letter-spacing: -.04em;
+      margin: 14px 0 20px;
+      color: theme.$navy;
+      span {color: theme.$magenta;}
+    }
+    p {color: #536070; line-height: 1.75; margin: 0;}
+  }
+
+  .subcontract-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+
+  .subcontract-card {
+    border: 1px solid theme.$border;
+    border-top: 4px solid theme.$cyan;
+    background: theme.$white;
+    padding: clamp(22px, 3vw, 32px);
+    min-width: 0;
+
+    &--team {border-top-color: theme.$magenta;}
+    &-label {
+      color: theme.$magenta;
+      display: block;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+    h3 {font-size: clamp(23px, 2.4vw, 30px); line-height: 1.2; color: theme.$navy; margin: 14px 0;}
+    p {color: #536070; line-height: 1.7; margin: 0 0 18px;}
+    ul {list-style: none; padding: 0; margin: 0; display: grid; gap: 10px;}
+    li {
+      color: #304053;
+      padding-left: 22px;
+      position: relative;
+      line-height: 1.55;
+      &::before {content: "✓"; position: absolute; left: 0; color: theme.$magenta; font-weight: 900;}
+    }
+  }
+
+  .subcontract-cta {
+    background: theme.$navy;
+    color: theme.$white;
+    padding: clamp(24px, 3vw, 38px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    h3 {font-size: clamp(23px, 2.5vw, 31px); color: theme.$white; margin: 0 0 12px;}
+    p {color: #ddd5e9; max-width: 700px; margin: 0; line-height: 1.65;}
+    .subcontract-conditions {color: #bcb3cf; font-size: 12px; margin-top: 14px;}
+    .btn {display: flex; align-items: center; justify-content: center; text-align: center; flex-shrink: 0;}
+    .btn:focus-visible {outline: 3px solid theme.$cyan; outline-offset: 3px;}
+  }
+
+  .footer-inner a[href="#subcontracting"] {
+    color: #d6ceed;
+    font-size: 12px;
+    &:hover, &:focus-visible {color: theme.$cyan;}
+  }
+
+  @media (max-width: 800px) {
+    .subcontract-grid {grid-template-columns: 1fr;}
+    .subcontract-cta {flex-direction: column; align-items: stretch;}
+    .subcontract-cta .btn {width: 100%;}
+  }
+}

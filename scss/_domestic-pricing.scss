@@ -1,0 +1,78 @@
+@use "tokens" as theme;
+
+@mixin apply {
+  .domestic-install-pricing {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    margin-top: clamp(26px, 4vw, 44px);
+    background: theme.$navy;
+    color: theme.$white;
+    border: 1px solid theme.$border;
+    overflow: hidden;
+
+    &__main {
+      padding: clamp(24px, 4vw, 44px);
+      min-width: 0;
+
+      .kicker {color: theme.$cyan; letter-spacing: .15em;}
+      h3 {
+        color: theme.$white;
+        margin: 18px 0;
+        font-size: clamp(28px, 3.2vw, 44px);
+        line-height: 1.15;
+        letter-spacing: -.04em;
+        span {color: theme.$cyan;}
+      }
+      > p {color: #d7d1e3; line-height: 1.75; max-width: 490px; margin: 0 0 26px;}
+    }
+
+    &__figure {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 20px 0 16px;
+      border-top: 1px solid #4a3969;
+      span {font-size: 14px; font-weight: 800; color: #e9e4f2;}
+      strong {font-weight: 900; font-size: clamp(52px, 6vw, 78px); line-height: 1.12; letter-spacing: -.06em; color: theme.$white;}
+      small {font-size: 12px; color: #d7d1e3;}
+    }
+
+    &__button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-top: 18px;
+      min-height: 48px;
+      white-space: normal;
+      &:focus-visible {outline: 3px solid theme.$cyan; outline-offset: 4px;}
+    }
+
+    &__details {
+      min-width: 0;
+      padding: clamp(24px, 4vw, 44px);
+      background: theme.$paper;
+      color: theme.$navy;
+
+      h4 {font-size: clamp(20px, 2.1vw, 27px); color: theme.$navy; line-height: 1.3; margin: 0 0 20px;}
+      ul {list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 12px;}
+      li {
+        padding-left: 25px;
+        position: relative;
+        color: #344253;
+        line-height: 1.55;
+        &::before {content: "✓"; position: absolute; left: 0; color: theme.$magenta; font-weight: 900;}
+      }
+    }
+    &__terms {font-size: 13px; line-height: 1.7; color: #465466; border-top: 1px solid theme.$border; padding-top: 17px; margin: 0 0 13px;}
+    &__vat {font-size: 12px; line-height: 1.65; color: #566174; margin: 0;}
+  }
+
+  @media (max-width: 850px) {
+    .domestic-install-pricing {grid-template-columns: 1fr;}
+  }
+  @media (max-width: 680px) {
+    .domestic-install-pricing__button {width: 100%;}
+  }
+}
