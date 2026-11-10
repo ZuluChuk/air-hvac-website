@@ -6,7 +6,8 @@
     "watch:css": "sass --watch --no-source-map scss/style.scss css/style.css",
     "build": "npm run build:css && npm run build:gallery",
     "deploy": "npm run build && wrangler deploy",
-    "build:gallery": "node scripts/generate-gallery-manifest.mjs"
+    "build:gallery": "node scripts/generate-gallery-manifest.mjs",
+    "test:calculator": "node --test tests/cooling-calculator.test.cjs"
   },
   "devDependencies": {
     "sass": "^1.93.0",

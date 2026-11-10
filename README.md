@@ -54,3 +54,10 @@ Instagram uses a Cloudflare secret `INSTAGRAM_ACCESS_TOKEN`. Never commit that t
 Only the homepage is indexable; `sitemap.xml` correctly lists one URL. See `SEO-AND-PUBLISHING.md` for checks after deployment.
 
 When changing DNS, preserve existing business-email MX, SPF, DKIM and DMARC records.
+
+
+## Room air-con sizing calculator
+
+The on-page calculator at \`/#calculator\` estimates **cooling** (not space heating) using a 100 W/m² baseline at a 2.4 m ceiling with simple multipliers for room use, insulation, sunlight and glazing, plus 120 W for each person beyond two. It shows approximate cooling kW, BTU/h, and the next nominal domestic split size (2 / 2.5 / 3.5 / 4.2 / 5 / 6 / 7.1 kW). A survey is recommended for conservatories, spaces over 50 m², ceilings over 3.3 m, or estimates exceeding 7.1 kW. These multipliers are heuristic, not a CIBSE room-by-room heat-gain calculation; no promise is made about the exact fitted unit. Reference: [Daikin UK air-conditioner size guide](https://www.daikin.co.uk/en_gb/residential/inspiration/articles/air-conditioner-size-guide.html).
+
+The logic runs entirely in the visitor's browser. Clicking “Email my result for a quote” launches their mail app with the estimate and room inputs; nothing is saved or posted to a server. Test calculations with \`npm run test:calculator\`.
