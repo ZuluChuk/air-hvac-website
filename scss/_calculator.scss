@@ -10,7 +10,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(355px, .95fr);
   gap: clamp(16px, 2.2vw, 28px);
-  align-items: start;
+  // Stretch both desktop columns to the height of the taller panel.
+  align-items: stretch;
 }
 .calculator-form, .calculator-result {
   min-width: 0;
