@@ -4,7 +4,12 @@
 .calculator-section {
   background: theme.$paper;
   scroll-margin-top: 90px;
-  .section-heading > p { max-width: 440px; }
+  // Give the calculator heading the full container width now the intro copy is gone.
+  .section-heading {
+    display: block;
+    > div { width: 100%; }
+    h2 { width: 100%; max-width: none; }
+  }
 }
 .calculator-layout {
   display: grid;
