@@ -143,6 +143,17 @@
   overflow-wrap: anywhere;
   color: #fff;
 }
+// Soft fade and rise when a visible size/load changes. No animation on first render.
+.calculator-value--changed {
+  animation: calculator-value-rise 320ms cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes calculator-value-rise {
+  from { opacity: .45; transform: translateY(7px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .calculator-value--changed { animation: none; }
+}
 .calculator-result__description {
   color: #e0dce8;
   font-size: 12px;
