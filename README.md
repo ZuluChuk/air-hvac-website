@@ -56,8 +56,13 @@ Only the homepage is indexable; `sitemap.xml` correctly lists one URL. See `SEO-
 When changing DNS, preserve existing business-email MX, SPF, DKIM and DMARC records.
 
 
-## Room air-con sizing calculator
+## Room heating and cooling calculator
 
-The on-page calculator at \`/#calculator\` estimates **cooling** (not space heating) using a 100 W/m² baseline at a 2.4 m ceiling with simple multipliers for room use, insulation, sunlight and glazing, plus 120 W for each person beyond two. It shows approximate cooling kW, BTU/h, and the next nominal domestic split size (2 / 2.5 / 3.5 / 4.2 / 5 / 6 / 7.1 kW). A survey is recommended for conservatories, spaces over 50 m², ceilings over 3.3 m, or estimates exceeding 7.1 kW. These multipliers are heuristic, not a CIBSE room-by-room heat-gain calculation; no promise is made about the exact fitted unit. Reference: [Daikin UK air-conditioner size guide](https://www.daikin.co.uk/en_gb/residential/inspiration/articles/air-conditioner-size-guide.html).
+The on-page calculator at `/#calculator` provides **live, side-by-side summer cooling and winter heating estimates** as visitors enter room dimensions and conditions. The left panel is clearly marked **01 / Your room** and the right panel **02 / Your instant results**. There is no Calculate button; input and change events refresh both results automatically.
 
-The logic runs entirely in the visitor's browser. Clicking “Email my result for a quote” launches their mail app with the estimate and room inputs; nothing is saved or posted to a server. Test calculations with \`npm run test:calculator\`.
+- **Cooling estimate:** 100 W/m² at a 2.4 m ceiling, adjusted for room use, insulation, summer sun and window size, plus 120 W per occupant beyond two.
+- **Heating estimate:** a separate rough winter heat-loss proxy using 70 W/m² at a 2.4 m ceiling for average fabric, modified for insulation, glazing and some room types. Heating does **not** incorporate summer sun or occupant cooling gains. It is *not* a design-temperature room-by-room heat-loss calculation.
+- **System size to discuss:** the first nominal domestic split size (2 / 2.5 / 3.5 / 4.2 / 5 / 6 / 7.1 kW) that nominally covers the **larger** of the two estimated loads, **only as an initial conversation starter**. Air-to-air heat pump heating capacity at local winter design temperatures must be checked against the selected model. It must not be assumed from the nominal cooling class.
+- **Survey advised:** for conservatories, floor area above 50 m², ceilings over 3.3 m, or estimated loads above the common nominal size range. Unusual fabric, ventilation, room geometry, equipment gains and heat loss may also require a survey even where a number is shown.
+
+The calculator displays both loads in kW and approximate BTU/h plus room floor area, with an email link carrying both loads and all inputs. It never saves or uploads details automatically; a visitor explicitly opens their email client before sharing. Reference for the *cooling* guidance: [Daikin UK air-conditioner size guide](https://www.daikin.co.uk/en_gb/residential/inspiration/articles/air-conditioner-size-guide.html). The multipliers are **heuristic only** and are not a substitute for a CIBSE-style cooling load or measured heat-loss/design assessment. Run `npm run test:calculator` to test the calculations.
