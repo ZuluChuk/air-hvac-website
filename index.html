@@ -78,13 +78,17 @@
     <section class="section calculator-section" id="calculator" aria-labelledby="calculator-title">
       <div class="wrap">
         <div class="section-heading">
-          <div><div class="kicker">FREE ROOM COOLING CALCULATOR</div><h2 id="calculator-title">What size air con <span>do I need?</span></h2></div>
-          <p>Get a quick estimate for your room in kW and BTU/h. Adjust the dimensions, glazing and exposure to see how your cooling requirement changes.</p>
+          <div><div class="kicker">FREE HEATING &amp; COOLING ROOM GUIDE</div><h2 id="calculator-title">What size air con <span>do I need?</span></h2></div>
+          <p>Find a sensible starting point for an air-to-air heat pump. Enter your room details to see live summer cooling and winter heating estimates.</p>
         </div>
         <div class="calculator-layout">
-          <form class="calculator-form" id="cooling-calculator-form">
+          <form class="calculator-form" id="cooling-calculator-form" aria-label="Room dimensions and conditions">
+            <div class="calculator-panel-header">
+              <span class="calculator-step" aria-hidden="true">01</span>
+              <div><p class="calculator-overline">YOUR ROOM</p><h3>Tell us about your space</h3><p>Adjust any detail below — no calculate button needed.</p></div>
+            </div>
             <fieldset class="calculator-fieldset">
-              <legend>01 / MEASURE YOUR ROOM</legend>
+              <legend>ROOM DIMENSIONS</legend>
               <div class="calculator-fields dimensions">
                 <label class="calculator-field" for="calc-length"><span>Length <small>(m)</small></span><input id="calc-length" name="length" type="number" min="1" max="30" step="0.1" value="5" inputmode="decimal" required></label>
                 <label class="calculator-field" for="calc-width"><span>Width <small>(m)</small></span><input id="calc-width" name="width" type="number" min="1" max="30" step="0.1" value="4" inputmode="decimal" required></label>
@@ -92,36 +96,50 @@
               </div>
             </fieldset>
             <fieldset class="calculator-fieldset">
-              <legend>02 / HOW IS THE ROOM USED?</legend>
+              <legend>ROOM USE</legend>
               <div class="calculator-fields">
                 <label class="calculator-field" for="calc-room"><span>Room type</span><select id="calc-room" name="room"><option value="bedroom">Bedroom</option><option value="lounge">Living room</option><option value="office">Home office</option><option value="kitchen">Kitchen / diner</option><option value="loft">Loft room</option><option value="conservatory">Conservatory</option></select></label>
                 <label class="calculator-field" for="calc-people"><span>People using the room</span><input id="calc-people" name="people" type="number" min="1" max="20" step="1" value="2" required></label>
               </div>
             </fieldset>
             <fieldset class="calculator-fieldset">
-              <legend>03 / THE BUILDING AND WINDOWS</legend>
+              <legend>INSULATION &amp; WINDOWS</legend>
               <div class="calculator-fields">
                 <label class="calculator-field" for="calc-insulation"><span>Insulation</span><select id="calc-insulation" name="insulation"><option value="good">Good / modern</option><option value="average" selected>Average</option><option value="poor">Poor / older building</option></select></label>
                 <label class="calculator-field" for="calc-sun"><span>Sun exposure</span><select id="calc-sun" name="sun"><option value="shaded">Mostly shaded / north-facing</option><option value="typical" selected>Some sun</option><option value="sunny">Strong sun / south or west-facing</option></select></label>
                 <label class="calculator-field" for="calc-glazing"><span>Amount of glazing</span><select id="calc-glazing" name="glazing"><option value="small">Small windows</option><option value="average" selected>Average windows</option><option value="large">Large windows / patio doors</option></select></label>
               </div>
             </fieldset>
-            <button class="btn primary calculator-submit" type="submit">Calculate my room size ↗</button>
-            <p class="calculator-privacy">Calculations stay in your browser. No details are sent to us unless you choose to email.</p>
+            <p class="calculator-privacy">Your estimates are calculated instantly in your browser. Nothing is sent to AIR HVAC unless you choose to email us.</p>
           </form>
-          <aside class="calculator-result" aria-label="Estimated cooling requirement" aria-live="polite" aria-atomic="true">
-            <div class="calculator-result__eyebrow">Indicative unit size</div>
-            <strong id="calc-size" class="calculator-result__size">—</strong>
-            <p class="calculator-result__description">Standard nominal cooling capacity, subject to survey</p>
-            <div class="calculator-facts">
-              <div><span>Estimated cooling load</span><strong id="calc-load">—</strong></div>
-              <div><span>Approximate BTU per hour</span><strong id="calc-btu">—</strong></div>
-              <div><span>Room floor area</span><strong id="calc-area">—</strong></div>
-              <div><span>Application</span><strong>Cooling</strong></div>
+          <aside class="calculator-result" aria-label="Your live room sizing results">
+            <div class="calculator-panel-header calculator-panel-header--result">
+              <span class="calculator-step" aria-hidden="true">02</span>
+              <div><p class="calculator-overline">YOUR INSTANT RESULTS</p><h3>Here's what your room may need</h3><p>These figures update as you change the room details.</p></div>
             </div>
-            <p id="calc-note" class="calculator-result__note">Enter your room details to see an estimate.</p>
-            <a class="btn primary calculator-email" id="calc-email" href="mailto:info@airhvac.co.uk" hidden>Email my result for a quote ↗</a>
-            <p class="calculator-disclaimer">Guide only, not a detailed heat-gain calculation or a heating-load assessment. Final sizing depends on actual glazing, shading, building fabric, equipment gains and the proposed installation. Larger or unusual rooms may need multiple units.</p>
+            <div class="calculator-hero-result" aria-live="polite" aria-atomic="true">
+              <div class="calculator-result__eyebrow">TYPICAL SYSTEM SIZE TO DISCUSS</div>
+              <strong id="calc-size" class="calculator-result__size">—</strong>
+              <p class="calculator-result__description">Starting-point nominal unit class for heating and cooling, subject to survey.</p>
+            </div>
+            <div class="calculator-load-grid" aria-label="Indicative seasonal demands">
+              <div class="calculator-load-card calculator-load-card--cooling">
+                <div class="calculator-load-title"><span aria-hidden="true">❄</span> Summer cooling</div>
+                <strong id="calc-load">—</strong>
+                <small id="calc-btu">—</small>
+                <span class="calculator-load-help">Estimated heat gain</span>
+              </div>
+              <div class="calculator-load-card calculator-load-card--heating">
+                <div class="calculator-load-title"><span aria-hidden="true">☀</span> Winter heating</div>
+                <strong id="calc-heating">—</strong>
+                <small id="calc-heating-btu">—</small>
+                <span class="calculator-load-help">Approximate room heat loss</span>
+              </div>
+            </div>
+            <div class="calculator-area"><span>Room floor area</span><strong id="calc-area">—</strong></div>
+            <p id="calc-note" class="calculator-result__note" aria-live="polite">Enter your room details to see an estimate.</p>
+            <a class="btn primary calculator-email" id="calc-email" href="mailto:info@airhvac.co.uk" hidden>Email my results for a quote ↗</a>
+            <p class="calculator-disclaimer">These are rough guides, not detailed room-by-room heat-gain or heat-loss calculations. Heating output can drop in cold outdoor conditions; the actual selected model must be checked against winter design temperatures and the building's fabric, glazing and ventilation. Larger or unusual rooms may need more than one unit.</p>
           </aside>
         </div>
       </div>
