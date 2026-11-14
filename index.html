@@ -14,11 +14,11 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.airhvac.co.uk/">
   <link rel="icon" href="images/favicon.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=calculator-heading-1">
+  <link rel="stylesheet" href="css/style.css?v=calculator-mobile-cue-1">
   <title>Air Conditioning Installation, Servicing & Repairs Surrey & London | AIR HVAC</title>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"HVACBusiness","@id":"https://www.airhvac.co.uk/#business","name":"AIR HVAC Ltd","url":"https://www.airhvac.co.uk/","logo":"https://www.airhvac.co.uk/images/air-hvac-logo.webp","image":"https://www.airhvac.co.uk/images/air-hvac-logo.webp","description":"F-Gas qualified, REFCOM registered air conditioning installation, maintenance, repairs and air-to-air heat pump services for residential and commercial customers.","areaServed":[{"@type":"AdministrativeArea","name":"Surrey"},{"@type":"AdministrativeArea","name":"Greater London"}],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Air conditioning and HVAC services","itemListElement":[{"@type":"OfferCatalog","name":"Air conditioning installation"},{"@type":"OfferCatalog","name":"Air conditioning servicing and maintenance"},{"@type":"OfferCatalog","name":"Air conditioning repairs and fault finding"},{"@type":"OfferCatalog","name":"Air-to-air heat pumps"},{"@type":"OfferCatalog","name":"Commercial HVAC and VRF systems"}]},"telephone":"+447940834195","sameAs":["https://www.instagram.com/airhvac_uk/"]}</script>
   <script src="js/main.js" defer></script>
-  <script src="js/cooling-calculator.js?v=calculator-animation-1" defer></script>
+  <script src="js/cooling-calculator.js?v=calculator-mobile-cue-1" defer></script>
   <script src="js/analytics.js" defer></script>
   <script src="js/service-area-map.js" defer></script>
   <script src="js/portfolio-data.js" defer></script>
@@ -86,6 +86,10 @@
               <span class="calculator-step" aria-hidden="true">01</span>
               <div><p class="calculator-overline">YOUR ROOM</p><h3>Tell us about your space</h3></div>
             </div>
+            <div class="calculator-mobile-navigation">
+              <a class="calculator-view-results" href="#calculator-results">View my results <span aria-hidden="true">↓</span></a>
+              <p class="calculator-mobile-cue" id="calculator-mobile-cue" aria-hidden="true">Your results are just below <span aria-hidden="true">↓</span></p>
+            </div>
             <fieldset class="calculator-fieldset">
               <legend>ROOM DIMENSIONS</legend>
               <div class="calculator-fields dimensions">
@@ -111,7 +115,7 @@
             </fieldset>
             <p class="calculator-privacy">Your estimates are calculated instantly in your browser. Nothing is sent to AIR HVAC unless you choose to email us.</p>
           </form>
-          <aside class="calculator-result" aria-label="Your live room sizing results">
+          <aside class="calculator-result" id="calculator-results" tabindex="-1" aria-label="Your live room sizing results">
             <div class="calculator-panel-header calculator-panel-header--result">
               <span class="calculator-step" aria-hidden="true">02</span>
               <div><p class="calculator-overline">YOUR INSTANT RESULTS</p><h3>Here's what your room may need</h3></div>
