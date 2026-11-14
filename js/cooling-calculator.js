@@ -71,9 +71,25 @@
   const note = document.getElementById("calc-note");
   const email = document.getElementById("calc-email");
   const format = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 0 });
+  let hasDisplayedEstimate = false;
+
+  // Animate only numbers that actually change. Skip the initial page render.
+  function updateSizingValue(element, value) {
+    if (element.textContent === value) return;
+    element.textContent = value;
+    element.classList.remove("calculator-value--changed");
+    if (!hasDisplayedEstimate) return;
+    // Restart the brief CSS animation, including during consecutive input edits.
+    void element.offsetWidth;
+    element.classList.add("calculator-value--changed");
+  }
 
   function reset(message) {
-    [size, load, btu, heating, heatingBtu, area].forEach(element => { element.textContent = "—"; });
+    [size, load, btu, heating, heatingBtu, area].forEach(element => {
+      element.classList.remove("calculator-value--changed");
+      element.textContent = "—";
+    });
+    hasDisplayedEstimate = false;
     note.textContent = message;
     email.hidden = true;
   }
@@ -99,10 +115,10 @@
     try {
       const result = estimateCooling(input);
       const isHeatingLed = result.heatingKw > result.coolingKw;
-      size.textContent = result.needsSurvey ? "Survey advised" : result.suggestedKw.toFixed(1) + " kW";
-      load.textContent = result.coolingKw.toFixed(1) + " kW";
+      updateSizingValue(size, result.needsSurvey ? "Survey advised" : result.suggestedKw.toFixed(1) + " kW");
+      updateSizingValue(load, result.coolingKw.toFixed(1) + " kW");
       btu.textContent = format.format(Math.round(result.btuPerHour / 100) * 100) + " BTU/h";
-      heating.textContent = result.heatingKw.toFixed(1) + " kW";
+      updateSizingValue(heating, result.heatingKw.toFixed(1) + " kW");
       heatingBtu.textContent = format.format(Math.round(result.heatingBtuPerHour / 100) * 100) + " BTU/h";
       area.textContent = result.area.toFixed(1) + " m²";
 
@@ -146,6 +162,7 @@
 
       email.href = "mailto:info@airhvac.co.uk?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       email.hidden = false;
+      hasDisplayedEstimate = true;
     } catch (_error) {
       reset("Please check your room details and try again.");
     }
