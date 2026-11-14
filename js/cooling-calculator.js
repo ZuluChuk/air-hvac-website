@@ -62,6 +62,18 @@
   const form = document.getElementById("cooling-calculator-form");
   if (!form) return;
 
+  // Reveal the mobile hint only once, after a genuine visitor change.
+  const mobileCue = document.getElementById("calculator-mobile-cue");
+  let mobileCueShown = false;
+  function showMobileCueOnce(event) {
+    if (mobileCueShown || !mobileCue || !event.target ||
+        !event.target.matches("input, select")) return;
+    mobileCueShown = true;
+    mobileCue.classList.add("calculator-mobile-cue--visible");
+  }
+  form.addEventListener("input", showMobileCueOnce);
+  form.addEventListener("change", showMobileCueOnce);
+
   const size = document.getElementById("calc-size");
   const load = document.getElementById("calc-load");
   const btu = document.getElementById("calc-btu");
