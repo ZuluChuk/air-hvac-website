@@ -3,6 +3,33 @@ const API_VERSION = "v25.0";
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // Serve allowlisted Wikimedia client logos from our own origin, without third-party cookies.
+    // Edge-cache the upstream response and let browsers cache it for 30 days.
+    const clientLogoSources = {
+      "/client-logos/suez.svg": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Suez_logo.svg",
+      "/client-logos/holiday-inn.png": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Holiday-inn-logo-non-endorsed-digital-green-rgb-vert-2023-en.png"
+    };
+    if (Object.prototype.hasOwnProperty.call(clientLogoSources, url.pathname)) {
+      if (request.method !== "GET" && request.method !== "HEAD") return new Response("Method not allowed", {status:405});
+      const cache = caches.default;
+      const cacheKey = new Request(url.origin + url.pathname);
+      let response = await cache.match(cacheKey);
+      if (!response) {
+        try {
+          const upstream = await fetch(clientLogoSources[url.pathname], {redirect:"follow"});
+          if (!upstream.ok) return new Response("Logo unavailable", {status:502,headers:{"Cache-Control":"no-store"}});
+          const type = upstream.headers.get("content-type") || "";
+          const expected = url.pathname.endsWith(".svg") ? "image/svg+xml" : "image/png";
+          if (!type.toLowerCase().includes(expected)) return new Response("Unexpected logo format", {status:502,headers:{"Cache-Control":"no-store"}});
+          response = new Response(upstream.body, {headers:{"Content-Type":expected,"Cache-Control":"public, max-age=2592000, s-maxage=2592000"}});
+          await cache.put(cacheKey, response.clone());
+        } catch (error) {
+          console.error("Client logo fetch failed", error);
+          return new Response("Logo unavailable", {status:502,headers:{"Cache-Control":"no-store"}});
+        }
+      }
+      return request.method === "HEAD" ? new Response(null, {headers:response.headers}) : response;
+    }
     if (url.pathname === "/api/instagram") {
       if (request.method !== "GET") return new Response("Method not allowed", {status:405});
       if (!env.INSTAGRAM_ACCESS_TOKEN || !env.INSTAGRAM_USER_ID) {
